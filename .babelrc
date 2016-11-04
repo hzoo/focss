@@ -1,3 +1,9 @@
 {
-  "presets": ["behance"]
+  "plugins": ["./recast-test.js"],
+  "parserOpts": {
+    "parser": "recast"
+  },
+  "generatorOpts": {
+    "generator": "recast"
+  }
 }
