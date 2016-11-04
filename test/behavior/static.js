@@ -5,14 +5,9 @@ function insertSpecs(selector) {
   it(selector + ' affects existing elements', function() {
     affix(selector);
 
-    fox.insert([
-      {
-        selector,
-        rules: {
-          'max-width': 'width'
-        }
-      }
-    ]);
+    fox.insert(selector, {
+      'max-width': 'width'
+    });
 
     fox.process({ width: 100 });
 
@@ -20,14 +15,9 @@ function insertSpecs(selector) {
   });
 
   it(selector + ' affects new elements', function() {
-    fox.insert([
-      {
-        selector,
-        rules: {
-          'max-width': 'width'
-        }
-      }
-    ]);
+    fox.insert(selector, {
+      'max-width': 'width'
+    });
 
     fox.process({ width: 100 });
 
@@ -39,28 +29,18 @@ function insertSpecs(selector) {
   it(selector + ' affects existing elements with newly inserted and processed rule', function() {
     affix(selector);
 
-    fox.insert([
-      {
-        selector,
-        rules: {
-          'max-width': 'width'
-        }
-      }
-    ]);
+    fox.insert(selector, {
+      'max-width': 'width'
+    });
     fox.process({ width: 100 });
 
     expect($(selector).css('max-width')).toBe('100px');
   });
 
   it(selector + ' affects new elements with newly inserted and processed rule', function() {
-    fox.insert([
-      {
-        selector,
-        rules: {
-          'max-width': 'width'
-        }
-      }
-    ]);
+    fox.insert(selector, {
+      'max-width': 'width'
+    });
     fox.process({ width: 100 });
 
     affix(selector);
@@ -117,14 +97,9 @@ describe('static rules', function() {
       var selector = 'input';
       var $el = affix(selector);
       var oldValue = $el.css('fontSize');
-      var artifacts = fox.insert([
-        {
-          selector: 'input, input::-' + incorrectPrefix + '-input-placeholder',
-          rules: {
-            'font-size': 'size'
-          }
-        }
-      ]);
+      var artifacts = fox.insert('input, input::-' + incorrectPrefix + '-input-placeholder', {
+        'font-size': 'size'
+      });
 
       fox.process({ size: '20px' });
 
