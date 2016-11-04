@@ -12,22 +12,31 @@ describe('Focss#toString', function() {
 
   describe('returns a string of processed styles', function() {
     it('when inserted rule contains single selector', function() {
-      this._fox.insert('.foo', {
-        'max-width': 'width'
-      });
+      this._fox.insert([{
+        selector: '.foo',
+
+        rules: {
+          'max-width': 'width'
+        }
+      }]);
 
       expect(this._fox.toString({ width: 100 })).toEqual('.foo{max-width:100px;}');
     });
 
     it('when inserted rule contains %forEach selector', function() {
-      this._fox.insert({
-        '.baz': {
+      this._fox.insert([{
+        selector: '.baz',
+
+        rules: {
           width: 'width'
-        },
-        '%forEach(foo, .bar[data-id="%id%"])': {
+        }
+      }, {
+        selector: '%forEach(foo, .bar[data-id="%id%"])',
+
+        rules: {
           'max-width': 'maxWidth'
         }
-      });
+      }]);
 
       expect(this._fox.toString({
         width: 400,
@@ -39,14 +48,19 @@ describe('Focss#toString', function() {
     });
 
     it('when inserted rule contains %filterEach selector', function() {
-      this._fox.insert({
-        '.baz': {
+      this._fox.insert([{
+        selector: '.baz',
+
+        rules: {
           width: 'width'
-        },
-        '%filterEach(foo, true, .bar[data-id="%id%"])': {
+        }
+      }, {
+        selector: '%filterEach(foo, true, .bar[data-id="%id%"])',
+
+        rules: {
           'max-width': 'width'
         }
-      });
+      }]);
 
       expect(this._fox.toString({
         width: 400,
@@ -58,8 +72,10 @@ describe('Focss#toString', function() {
     });
 
     it('when inserted rule contains media query', function() {
-      this._fox.insert({
-        '@media screen and (max-width: 300px)': [
+      this._fox.insert([{
+        selector: '@media screen and (max-width: 300px)',
+
+        rules: [
           {
             selector: '.class1',
             rules: {
@@ -68,7 +84,7 @@ describe('Focss#toString', function() {
             }
           }
         ]
-      });
+      }]);
 
       expect(this._fox.toString({
         foo: 100,
@@ -77,8 +93,10 @@ describe('Focss#toString', function() {
     });
 
     it('when inserted media query contains %forEach selector', function() {
-      this._fox.insert({
-        '@media screen and (max-width: 300px)': [
+      this._fox.insert([{
+        selector: '@media screen and (max-width: 300px)',
+
+        rules: [
           {
             selector: '.class1',
             rules: {
@@ -93,7 +111,7 @@ describe('Focss#toString', function() {
             }
           }
         ]
-      });
+      }]);
 
       expect(this._fox.toString({
         foo: 100,
@@ -106,8 +124,10 @@ describe('Focss#toString', function() {
     });
 
     it('when inserted media query contains %filterEach selector', function() {
-      this._fox.insert({
-        '@media screen and (max-width: 300px)': [
+      this._fox.insert([{
+        selector: '@media screen and (max-width: 300px)',
+
+        rules: [
           {
             selector: '.class1',
             rules: {
@@ -122,7 +142,7 @@ describe('Focss#toString', function() {
             }
           }
         ]
-      });
+      }]);
 
       expect(this._fox.toString({
         foo: 100,
@@ -135,8 +155,10 @@ describe('Focss#toString', function() {
     });
 
     it('when inserted media query contains computed selector', function() {
-      this._fox.insert({
-        '@media screen and (max-width: <% baz + qux %>px)': [
+      this._fox.insert([{
+        selector: '@media screen and (max-width: <% baz + qux %>px)',
+
+        rules: [
           {
             selector: '.class1',
             rules: {
@@ -150,7 +172,7 @@ describe('Focss#toString', function() {
             }
           }
         ]
-      });
+      }]);
 
       expect(this._fox.toString({
         foo: 100,
@@ -161,8 +183,10 @@ describe('Focss#toString', function() {
     });
 
     it('when inserted rule list contains multiple media queries', function() {
-      this._fox.insert({
-        '@media screen and (max-width: 300px)': [
+      this._fox.insert([{
+        selector: '@media screen and (max-width: 300px)',
+
+        rules: [
           {
             selector: '.class1',
             rules: {
@@ -170,9 +194,11 @@ describe('Focss#toString', function() {
             }
           }
         ]
-      });
-      this._fox.insert({
-        '@media screen and (max-width: 600px)': [
+      }]);
+      this._fox.insert([{
+        selector: '@media screen and (max-width: 600px)',
+
+        rules: [
           {
             selector: '.class1',
             rules: {
@@ -180,7 +206,7 @@ describe('Focss#toString', function() {
             }
           }
         ]
-      });
+      }]);
 
       expect(this._fox.toString({
         foo: 100,
@@ -189,11 +215,16 @@ describe('Focss#toString', function() {
     });
 
     it('when inserted rule list contains a mixture of non-media query and media query rules', function() {
-      this._fox.insert({
-        '.class1': {
+      this._fox.insert([{
+        selector: '.class1',
+
+        rules: {
           'max-width': 'foo'
-        },
-        '@media screen and (max-width: 300px)': [
+        }
+      }, {
+        selector: '@media screen and (max-width: 300px)',
+
+        rules: [
           {
             selector: '.class1',
             rules: {
@@ -202,7 +233,7 @@ describe('Focss#toString', function() {
             }
           }
         ]
-      });
+      }]);
 
       expect(this._fox.toString({
         foo: 100,
@@ -212,8 +243,10 @@ describe('Focss#toString', function() {
   });
 
   it('returns media queries in order in which they were inserted', function() {
-    this._fox.insert({
-      '@media screen and (max-width: 300px)': [
+    this._fox.insert([{
+      selector: '@media screen and (max-width: 300px)',
+
+      rules: [
         {
           selector: '.class1',
           rules: {
@@ -221,9 +254,11 @@ describe('Focss#toString', function() {
           }
         }
       ]
-    });
-    this._fox.insert({
-      '@media screen and (max-width: 600px)': [
+    }]);
+    this._fox.insert([{
+      selector: '@media screen and (max-width: 600px)',
+
+      rules: [
         {
           selector: '.class1',
           rules: {
@@ -231,9 +266,11 @@ describe('Focss#toString', function() {
           }
         }
       ]
-    });
-    this._fox.insert({
-      '@media screen and (max-width: 100px)': [
+    }]);
+    this._fox.insert([{
+      selector: '@media screen and (max-width: 100px)',
+
+      rules: [
         {
           selector: '.class1',
           rules: {
@@ -241,7 +278,7 @@ describe('Focss#toString', function() {
           }
         }
       ]
-    });
+    }]);
 
     expect(this._fox.toString({
       foo: 100,
@@ -251,14 +288,18 @@ describe('Focss#toString', function() {
   });
 
   it('returns non-media query rules before media query rules regardless of order inserted', function() {
-    this._fox.insert({
-      '.class1': {
+    this._fox.insert([{
+      selector: '.class1',
+
+      rules: {
         color: 'bar'
       }
-    });
+    }]);
 
-    this._fox.insert({
-      '@media screen and (max-width: 300px)': [
+    this._fox.insert([{
+      selector: '@media screen and (max-width: 300px)',
+
+      rules: [
         {
           selector: '.class1',
           rules: {
@@ -273,13 +314,15 @@ describe('Focss#toString', function() {
           }
         }
       ]
-    });
+    }]);
 
-    this._fox.insert({
-      '.class2': {
+    this._fox.insert([{
+      selector: '.class2',
+
+      rules: {
         'max-width': 'foo'
       }
-    });
+    }]);
 
     expect(this._fox.toString({
       foo: 100,
@@ -293,9 +336,13 @@ describe('Focss#toString', function() {
 
   describe('`<% %>` delimiter', function() {
     it('works when used in a an attribute selector', function() {
-      this._fox.insert('.<% foo %>[<% bar %>]', {
-        'max-width': 'width'
-      });
+      this._fox.insert([{
+        selector: '.<% foo %>[<% bar %>]',
+
+        rules: {
+          'max-width': 'width'
+        }
+      }]);
 
       expect(this._fox.toString({
         foo: 'a',
@@ -305,9 +352,13 @@ describe('Focss#toString', function() {
     });
 
     it('correctly evaulates a JavaScript expression', function() {
-      this._fox.insert('.<% foo || bar %>', {
-        'max-width': 'width'
-      });
+      this._fox.insert([{
+        selector: '.<% foo || bar %>',
+
+        rules: {
+          'max-width': 'width'
+        }
+      }]);
 
       expect(this._fox.toString({
         foo: 'a',
@@ -316,9 +367,13 @@ describe('Focss#toString', function() {
     });
 
     it('correctly evaulates a JavaScript expression', function() {
-      this._fox.insert('.<% foo || bar %>', {
-        'max-width': 'width',
-      });
+      this._fox.insert([{
+        selector: '.<% foo || bar %>',
+
+        rules: {
+          'max-width': 'width',
+        }
+      }]);
 
       expect(this._fox.toString({
         bar: 'b',
@@ -327,9 +382,13 @@ describe('Focss#toString', function() {
     });
 
     it('correctly evaulates a JavaScript expression with a < symbol', function() {
-      this._fox.insert('.class<% foo < bar ? foo : bar %>', {
-        'max-width': 'width',
-      });
+      this._fox.insert([{
+        selector: '.class<% foo < bar ? foo : bar %>',
+
+        rules: {
+          'max-width': 'width',
+        }
+      }]);
 
       expect(this._fox.toString({
         foo: 4,
@@ -339,9 +398,13 @@ describe('Focss#toString', function() {
     });
 
     it('correctly evaulates a JavaScript expression with a < and % symbol', function() {
-      this._fox.insert('.class<% foo < bar % 5 ? foo % 3 : bar %>', {
-        'max-width': 'width',
-      });
+      this._fox.insert([{
+        selector: '.class<% foo < bar % 5 ? foo % 3 : bar %>',
+
+        rules: {
+          'max-width': 'width',
+        }
+      }]);
 
       expect(this._fox.toString({
         foo: 4,
@@ -351,9 +414,13 @@ describe('Focss#toString', function() {
     });
 
     it('correctly evaulates a computed expression regardless of surrounding whitespace', function() {
-      this._fox.insert('.<%foo  %>', {
-        'max-width': 'width',
-      });
+      this._fox.insert([{
+        selector: '.<%foo  %>',
+
+        rules: {
+          'max-width': 'width',
+        }
+      }]);
 
       expect(this._fox.toString({
         foo: 'a',

@@ -19,9 +19,13 @@ describe('default extensions', function() {
 
   describe('Math', function() {
     it('.floor', function() {
-      fox.insert('.foo', {
-        'max-width': 'Math.floor(width)'
-      });
+      fox.insert([{
+        selector: '.foo',
+
+        rules: {
+          'max-width': 'Math.floor(width)'
+        }
+      }]);
 
       fox.process({
         width: 100.6
@@ -33,9 +37,13 @@ describe('default extensions', function() {
 
   describe('Number', function() {
     it('.parseInt', function() {
-      fox.insert('.foo', {
-        'max-width': 'Number.parseInt(width)'
-      });
+      fox.insert([{
+        selector: '.foo',
+
+        rules: {
+          'max-width': 'Number.parseInt(width)'
+        }
+      }]);
 
       fox.process({
         width: '123'

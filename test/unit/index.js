@@ -62,11 +62,13 @@ describe('Focss', function() {
       }).toThrow(new TypeError('Inserted descriptors must be an array.'));
 
       expect(() => {
-        this._fox.insert({
-          '.selector': {
+        this._fox.insert([{
+          selector: '.selector',
+
+          rules: {
             prop: ''
           }
-        });
+        }]);
       }).toThrow(new TypeError('Inserted descriptors must be an array.'));
     });
   });

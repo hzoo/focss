@@ -18,9 +18,13 @@ describe('toggleSelectors rules', function() {
     describe('with a single psuedo selector', function() {
       beforeEach(function() {
         this._el = affix('div.bar');
-        this._fox.insert('.bar:hover', {
-          'max-width': 'width'
-        });
+        this._fox.insert([{
+          selector: '.bar:hover',
+
+          rules: {
+            'max-width': 'width'
+          }
+        }]);
         this._fox.process({
           width: 20,
           foo: 'foo'
@@ -49,9 +53,13 @@ describe('toggleSelectors rules', function() {
     describe('with multiple psuedo selector', function() {
       beforeEach(function() {
         this._el = affix('div.bar');
-        this._fox.insert('.bar:hover, .bar:active', {
-          'max-width': 'width'
-        });
+        this._fox.insert([{
+          selector: '.bar:hover, .bar:active',
+
+          rules: {
+            'max-width': 'width'
+          }
+        }]);
         this._fox.process({
           width: 20,
           foo: 'foo'
@@ -80,9 +88,13 @@ describe('toggleSelectors rules', function() {
     describe('with togglable class selector', function() {
       beforeEach(function() {
         this._el = affix('div.bar.__sent');
-        this._fox.insert('.bar.__sent', {
-          'max-width': 'width'
-        });
+        this._fox.insert([{
+          selector: '.bar.__sent',
+
+          rules: {
+            'max-width': 'width'
+          }
+        }]);
         this._fox.process({
           width: 20,
           foo: 'foo'
@@ -111,9 +123,13 @@ describe('toggleSelectors rules', function() {
     describe('with togglable class selector with psuedo element', function() {
       beforeEach(function() {
         this._el = affix('div.bar.__sent');
-        this._fox.insert('.bar.__sent:before', {
-          'max-width': 'width'
-        });
+        this._fox.insert([{
+          selector: '.bar.__sent:before',
+
+          rules: {
+            'max-width': 'width'
+          }
+        }]);
         this._fox.process({
           width: 20,
           foo: 'foo'
@@ -147,9 +163,13 @@ describe('toggleSelectors rules', function() {
 
     describe('with a forEach selector', function() {
       beforeEach(function() {
-        this._fox.insert('%forEach(foo, .bar[data-id="%id%"]:hover)', {
-          'max-width': 'width'
-        });
+        this._fox.insert([{
+          selector: '%forEach(foo, .bar[data-id="%id%"]:hover)',
+
+          rules: {
+            'max-width': 'width'
+          }
+        }]);
         this._fox.process({
           foo: [
             { id: -1, width: 100 },
